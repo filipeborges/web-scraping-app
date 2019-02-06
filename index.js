@@ -8,10 +8,12 @@ import HtmlProcessor from './src/HtmlProcessor';
 WallmartConfig.setUrl('ps4', 20);
 const config = WallmartConfig.getConfig();
 
-DriverBrowser.retriveHtmlWithDelay(config.searchString)
+DriverBrowser.retriveHtmlWithDelay(config.url)
   .then((html) => {
     const htmlProc = new HtmlProcessor(html, config);
+    htmlProc.filterByProductSelector();
     console.log(htmlProc.numberOfProductMatches());
+    console.log(htmlProc.getProductDetailLinkElements());
     DriverBrowser.quit();
   })
   .catch((err) => {

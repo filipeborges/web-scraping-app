@@ -8,7 +8,7 @@ export default class WallmartConfig {
       .replace('<keyword>', keyword)
       .replace('<quantity>', pageResultQuantity);
 
-    configCopy.wallmart.searchString = url;
+    configCopy.wallmart.url = url;
   }
 
   static getConfig() {

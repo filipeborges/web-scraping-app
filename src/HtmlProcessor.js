@@ -6,7 +6,7 @@ import cheerio from 'cheerio';
 // );
 
 const isValidConfig = config => (
-  config && config.productSelector
+  config && config.productSelector && config.productLinkSelector
 );
 
 export default class HtmlProcessor {
@@ -21,6 +21,26 @@ export default class HtmlProcessor {
 
   numberOfProductMatches() {
     return this.$(this.config.productSelector).length;
+  }
+
+  filterByProductSelector() {
+    this.cheerioFiltered = this.$(this.config.productSelector);
+  }
+
+  getProductDetailLinkElements() {
+    const urls = [];
+
+    return this.cheerioFiltered.find(this.config.productLinkSelector).filter((i, elem) => {
+      if (elem && elem.attribs && elem.attribs.href) {
+        const linkAlreadyExists = urls.some(url => url === elem.attribs.href);
+        if (!linkAlreadyExists) {
+          urls.push(elem.attribs.href);
+          return true;
+        }
+      }
+
+      return false;
+    });
   }
 }
 
