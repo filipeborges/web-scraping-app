@@ -13,7 +13,8 @@ DriverBrowser.retriveHtmlWithDelay(config.url)
     const htmlProc = new HtmlProcessor(html, config);
     htmlProc.filterByProductSelector();
     console.log(htmlProc.numberOfProductMatches());
-    console.log(htmlProc.getProductDetailLinkElements());
+    console.log(htmlProc.getProductDetailLinks());
+    console.log(htmlProc.getProductDetailLinks().length);
     DriverBrowser.quit();
   })
   .catch((err) => {

@@ -1,4 +1,5 @@
 import cheerio from 'cheerio';
+import HtmlProcessorUtils from './util/HtmlProcessorUtils';
 // import Logger from './log/Logger';
 
 // const isValidSearchString = searchString => (
@@ -8,6 +9,15 @@ import cheerio from 'cheerio';
 const isValidConfig = config => (
   config && config.productSelector && config.productLinkSelector
 );
+
+const extractUrlFromHref = anchorElem => anchorElem.attribs.href;
+
+const extractUrl = (elem) => {
+  if (elem && elem.attribs && elem.attribs.href) {
+    return extractUrlFromHref(elem);
+  }
+  return undefined;
+};
 
 export default class HtmlProcessor {
   constructor(html, config) {
@@ -27,20 +37,19 @@ export default class HtmlProcessor {
     this.cheerioFiltered = this.$(this.config.productSelector);
   }
 
-  getProductDetailLinkElements() {
+  getProductDetailLinks() {
     const urls = [];
 
-    return this.cheerioFiltered.find(this.config.productLinkSelector).filter((i, elem) => {
-      if (elem && elem.attribs && elem.attribs.href) {
-        const linkAlreadyExists = urls.some(url => url === elem.attribs.href);
+    this.cheerioFiltered
+      .find(this.config.productLinkSelector)
+      .each((i, elem) => {
+        const linkStr = extractUrl(elem);
+        const linkAlreadyExists = urls.some(url => url === linkStr);
         if (!linkAlreadyExists) {
-          urls.push(elem.attribs.href);
-          return true;
+          urls.push(linkStr);
         }
-      }
-
-      return false;
-    });
+      });
+    return HtmlProcessorUtils.normalizeLinks(urls, this.config.normalizeKeywords);
   }
 }
 
