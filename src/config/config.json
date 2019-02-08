@@ -4,6 +4,7 @@
     "searchString": "https://www.walmart.com.br/busca/?ft=<keyword>&PS=<quantity>",
     "productSelector": "li.shelf-product-item",
     "productLinkSelector": "a",
-    "normalizeKeywords": ["//"]
+    "normalizeKeywords": ["//"],
+    "priceSelector": ".price-sell .price-value"
   }
 }

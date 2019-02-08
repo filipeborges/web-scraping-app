@@ -11,10 +11,7 @@ const config = WallmartConfig.getConfig();
 DriverBrowser.retriveHtmlWithDelay(config.url)
   .then((html) => {
     const htmlProc = new HtmlProcessor(html, config);
-    htmlProc.filterByProductSelector();
-    console.log(htmlProc.numberOfProductMatches());
-    console.log(htmlProc.getProductDetailLinks());
-    console.log(htmlProc.getProductDetailLinks().length);
+    htmlProc.getProductPrices();
     DriverBrowser.quit();
   })
   .catch((err) => {

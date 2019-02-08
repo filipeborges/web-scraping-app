@@ -7,7 +7,10 @@ import HtmlProcessorUtils from './util/HtmlProcessorUtils';
 // );
 
 const isValidConfig = config => (
-  config && config.productSelector && config.productLinkSelector
+  config
+  && config.productSelector
+  && config.productLinkSelector
+  && config.priceSelector
 );
 
 const extractUrlFromHref = anchorElem => anchorElem.attribs.href;
@@ -15,6 +18,18 @@ const extractUrlFromHref = anchorElem => anchorElem.attribs.href;
 const extractUrl = (elem) => {
   if (elem && elem.attribs && elem.attribs.href) {
     return extractUrlFromHref(elem);
+  }
+  return undefined;
+};
+
+// TODO: Improve
+const extractPrice = (elem) => {
+  if (elem) {
+    let price = '';
+    elem.children.forEach((child) => {
+      price += child.children[0].data;
+    });
+    return price;
   }
   return undefined;
 };
@@ -27,14 +42,21 @@ export default class HtmlProcessor {
 
     this.config = config;
     this.$ = cheerio.load(html);
+    this.cheerioFiltered = this.$(this.config.productSelector);
   }
 
   numberOfProductMatches() {
     return this.$(this.config.productSelector).length;
   }
 
-  filterByProductSelector() {
-    this.cheerioFiltered = this.$(this.config.productSelector);
+  getProductPrices() {
+    const prices = [];
+    const productPrices = this.cheerioFiltered.find(this.config.priceSelector);
+    productPrices.each((i, elem) => {
+      prices.push(extractPrice(elem));
+    });
+    console.log(prices);
+    console.log(prices.length);
   }
 
   getProductDetailLinks() {
