@@ -1,5 +1,7 @@
 import cheerio from 'cheerio';
 import HtmlProcessorUtils from './util/HtmlProcessorUtils';
+import WallmartConfig from './config/WallmartConfig';
+import WallmartProcessor from './eshop/WallmartProcessor';
 // import Logger from './log/Logger';
 
 // const isValidSearchString = searchString => (
@@ -22,25 +24,14 @@ const extractUrl = (elem) => {
   return undefined;
 };
 
-// TODO: Improve
-const extractPrice = (elem) => {
-  if (elem) {
-    let price = '';
-    elem.children.forEach((child) => {
-      price += child.children[0].data;
-    });
-    return price;
-  }
-  return undefined;
-};
-
 export default class HtmlProcessor {
-  constructor(html, config) {
+  constructor(html, config, eshopType) {
     if (!isValidConfig(config)) {
       throw new Error('HtmlProcessor.constructor: Missing config info');
     }
 
     this.config = config;
+    this.eshopType = eshopType;
     this.$ = cheerio.load(html);
     this.cheerioFiltered = this.$(this.config.productSelector);
   }
@@ -53,7 +44,9 @@ export default class HtmlProcessor {
     const prices = [];
     const productPrices = this.cheerioFiltered.find(this.config.priceSelector);
     productPrices.each((i, elem) => {
-      prices.push(extractPrice(elem));
+      if (this.eshopType === WallmartConfig.eshopType()) {
+        prices.push(WallmartProcessor.extractElemPrice(elem));
+      }
     });
     console.log(prices);
     console.log(prices.length);

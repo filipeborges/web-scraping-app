@@ -10,7 +10,7 @@ const config = WallmartConfig.getConfig();
 
 DriverBrowser.retriveHtmlWithDelay(config.url)
   .then((html) => {
-    const htmlProc = new HtmlProcessor(html, config);
+    const htmlProc = new HtmlProcessor(html, config, WallmartConfig.eshopType());
     htmlProc.getProductPrices();
     DriverBrowser.quit();
   })

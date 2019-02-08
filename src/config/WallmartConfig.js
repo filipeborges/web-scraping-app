@@ -14,4 +14,8 @@ export default class WallmartConfig {
   static getConfig() {
     return configCopy.wallmart;
   }
+
+  static eshopType() {
+    return 'wallmart';
+  }
 }
