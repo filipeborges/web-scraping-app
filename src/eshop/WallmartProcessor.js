@@ -9,4 +9,11 @@ export default class WallmartProcessor {
     }
     return undefined;
   }
+
+  static extractElemProductName(elem) {
+    if (elem) {
+      return elem.children[0].data;
+    }
+    return undefined;
+  }
 }
