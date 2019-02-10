@@ -16,4 +16,11 @@ export default class WallmartProcessor {
     }
     return undefined;
   }
+
+  static extractElemLinkDetail(elem) {
+    if (elem && elem.attribs && elem.attribs.href) {
+      return elem.attribs.href;
+    }
+    return undefined;
+  }
 }

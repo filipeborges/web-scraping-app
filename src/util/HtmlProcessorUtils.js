@@ -10,7 +10,7 @@ const normalizeLink = (link, keywordsToExclude) => {
 };
 
 export default class HtmlProcessorUtil {
-  static normalizeLinks(links, keywordsToExclude) {
+  static normalizeProductDetailLinks(links, keywordsToExclude) {
     if (!links || !keywordsToExclude) {
       throw new Error('HtmlProcessorUtil.normalizeLinks: Missing parameter info');
     }

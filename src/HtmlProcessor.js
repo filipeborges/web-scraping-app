@@ -16,15 +16,6 @@ const isValidConfig = config => (
   && config.productNameSelector
 );
 
-const extractUrlFromHref = anchorElem => anchorElem.attribs.href;
-
-const extractUrl = (elem) => {
-  if (elem && elem.attribs && elem.attribs.href) {
-    return extractUrlFromHref(elem);
-  }
-  return undefined;
-};
-
 export default class HtmlProcessor {
   constructor(html, config, eshopType) {
     if (!isValidConfig(config)) {
@@ -49,6 +40,7 @@ export default class HtmlProcessor {
         prices.push(WallmartProcessor.extractElemPrice(elem));
       }
     });
+    return prices;
   }
 
   getProductNames() {
@@ -59,20 +51,24 @@ export default class HtmlProcessor {
         names.push(WallmartProcessor.extractElemProductName(elem));
       }
     });
+    return names;
   }
 
   getProductDetailLinks() {
     const urls = [];
+    let linkStr;
 
     this.productsCheerio
       .find(this.config.productLinkSelector)
       .each((i, elem) => {
-        const linkStr = extractUrl(elem);
+        if (this.eshopType === WallmartConfig.eshopType()) {
+          linkStr = WallmartProcessor.extractElemLinkDetail(elem);
+        }
         const linkAlreadyExists = urls.some(url => url === linkStr);
         if (!linkAlreadyExists) {
           urls.push(linkStr);
         }
       });
-    return HtmlProcessorUtils.normalizeLinks(urls, this.config.normalizeLinkKeywords);
+    return HtmlProcessorUtils.normalizeProductDetailLinks(urls, this.config.normalizeLinkKeywords);
   }
 }
