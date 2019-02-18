@@ -12,8 +12,9 @@ const isValidConfig = config => (
   config
   && config.productSelector
   && config.productLinkSelector
-  && config.priceSelector
+  && config.productPriceSelector
   && config.productNameSelector
+  && config.validLinkPatterns
 );
 
 export default class HtmlProcessor {
@@ -34,7 +35,7 @@ export default class HtmlProcessor {
 
   getProductPrices() {
     const prices = [];
-    const productPrices = this.productsCheerio.find(this.config.priceSelector);
+    const productPrices = this.productsCheerio.find(this.config.productPriceSelector);
     productPrices.each((i, elem) => {
       if (this.eshopType === WallmartConfig.eshopType()) {
         prices.push(WallmartProcessor.extractElemPrice(elem));
@@ -65,7 +66,8 @@ export default class HtmlProcessor {
           linkStr = WallmartProcessor.extractElemLinkDetail(elem);
         }
         const linkAlreadyExists = urls.some(url => url === linkStr);
-        if (!linkAlreadyExists) {
+        if (!linkAlreadyExists
+          && HtmlProcessorUtils.isValidLink(linkStr, this.config.validLinkPatterns)) {
           urls.push(linkStr);
         }
       });

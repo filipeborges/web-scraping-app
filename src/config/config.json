@@ -5,7 +5,8 @@
     "productSelector": "li.shelf-product-item",
     "productLinkSelector": "a",
     "normalizeLinkKeywords": ["//"],
-    "priceSelector": ".price-sell .price-value",
+    "validLinkPatterns": ["www"],
+    "productPriceSelector": ".price-sell .price-value",
     "productNameSelector": "li.shelf-product-item .product-title"
   }
 }

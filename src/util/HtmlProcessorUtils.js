@@ -9,6 +9,12 @@ const normalizeLink = (link, keywordsToExclude) => {
   return normalizedLink;
 };
 
+const buildLinkValidPatternsRegex = validLinkPatterns => (
+  validLinkPatterns.map(validPattern => (
+    new RegExp(validPattern)
+  ))
+);
+
 export default class HtmlProcessorUtil {
   static normalizeProductDetailLinks(links, keywordsToExclude) {
     if (!links || !keywordsToExclude) {
@@ -24,5 +30,16 @@ export default class HtmlProcessorUtil {
     });
 
     return normalizedLinks;
+  }
+
+  static isValidLink(link, validLinkPatterns) {
+    if (!link || !validLinkPatterns) {
+      throw new Error('HtmlProcessorUtil.isValidLink: Missing parameter info');
+    }
+
+    const validLinkPatternsRegex = buildLinkValidPatternsRegex(validLinkPatterns);
+    return validLinkPatternsRegex.every(validLinkPattern => (
+      link.match(validLinkPattern)
+    ));
   }
 }
