@@ -1,7 +1,7 @@
 import { Builder, Browser } from 'selenium-webdriver';
 import { Options } from 'selenium-webdriver/firefox';
 // import Logger from './log/Logger';
-import getRandomNumber from './util/NumberUtils';
+import { getRandomNumber } from './util/NumberUtils';
 
 class DriverBrowser {
   constructor() {

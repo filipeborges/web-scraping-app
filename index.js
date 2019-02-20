@@ -1,17 +1,27 @@
 import DriverBrowser from './src/DriverBrowser';
 import WallmartConfig from './src/config/WallmartConfig';
 import HtmlProcessor from './src/HtmlProcessor';
-// import config from './src/config/config';
+import ResultProcessor from './src/ResultProcessor';
 
-// const url = config.wallmart.searchString.replace('<keyword>', 'ps4').replace('<quantity>', '30');
+const keyword = 'ps4';
+const maxPriceValue = '1800';
 
-WallmartConfig.setUrl('ps4', 20);
+// TODO: Define maxNumber of products to fetch;
+
+WallmartConfig.setUrl(keyword, 100);
 const config = WallmartConfig.getConfig();
 
 DriverBrowser.retriveHtmlWithDelay(config.url)
   .then((html) => {
     const htmlProc = new HtmlProcessor(html, config, WallmartConfig.eshopType());
-    htmlProc.getProductNames();
+    const productNames = htmlProc.getProductNames();
+    const productPrices = htmlProc.getProductPrices();
+    const produtDetailLinks = htmlProc.getProductDetailLinks();
+    const resultProc = new ResultProcessor(productNames, productPrices, produtDetailLinks);
+
+    const result = resultProc.findResultsByPrice(maxPriceValue);
+    console.log(result);
+    console.log(result.length);
     DriverBrowser.quit();
   })
   .catch((err) => {
