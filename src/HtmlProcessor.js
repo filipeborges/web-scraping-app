@@ -18,13 +18,12 @@ const isValidConfig = config => (
 );
 
 export default class HtmlProcessor {
-  constructor(html, config, eshopType) {
+  constructor(html, config) {
     if (!isValidConfig(config)) {
       throw new Error('HtmlProcessor.constructor: Missing config info');
     }
 
     this.config = config;
-    this.eshopType = eshopType;
     this.$ = cheerio.load(html);
     this.productsCheerio = this.$(this.config.productSelector);
   }
@@ -37,7 +36,7 @@ export default class HtmlProcessor {
     const prices = [];
     const productPrices = this.productsCheerio.find(this.config.productPriceSelector);
     productPrices.each((i, elem) => {
-      if (this.eshopType === WallmartConfig.eshopType()) {
+      if (this.config.eshopType === WallmartConfig.eshopType()) {
         prices.push(WallmartProcessor.extractElemPrice(elem));
       }
     });
@@ -48,7 +47,7 @@ export default class HtmlProcessor {
     const names = [];
     const productNames = this.productsCheerio.find(this.config.productNameSelector);
     productNames.each((i, elem) => {
-      if (this.eshopType === WallmartConfig.eshopType()) {
+      if (this.config.eshopType === WallmartConfig.eshopType()) {
         names.push(WallmartProcessor.extractElemProductName(elem));
       }
     });
@@ -62,7 +61,7 @@ export default class HtmlProcessor {
     this.productsCheerio
       .find(this.config.productLinkSelector)
       .each((i, elem) => {
-        if (this.eshopType === WallmartConfig.eshopType()) {
+        if (this.config.eshopType === WallmartConfig.eshopType()) {
           linkStr = WallmartProcessor.extractElemLinkDetail(elem);
         }
         const linkAlreadyExists = urls.some(url => url === linkStr);

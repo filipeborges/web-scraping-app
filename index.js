@@ -7,13 +7,11 @@ const keyword = 'ps4';
 const maxPriceValue = '1800';
 
 // TODO: Define maxNumber of products to fetch;
-
-WallmartConfig.setUrl(keyword, 100);
-const config = WallmartConfig.getConfig();
+const config = WallmartConfig.getConfig(keyword, 100);
 
 DriverBrowser.retriveHtmlWithDelay(config.url)
   .then((html) => {
-    const htmlProc = new HtmlProcessor(html, config, WallmartConfig.eshopType());
+    const htmlProc = new HtmlProcessor(html, config);
     const productNames = htmlProc.getProductNames();
     const productPrices = htmlProc.getProductPrices();
     const produtDetailLinks = htmlProc.getProductDetailLinks();

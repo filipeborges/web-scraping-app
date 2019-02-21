@@ -7,6 +7,7 @@
     "normalizeLinkKeywords": ["//"],
     "validLinkPatterns": ["www"],
     "productPriceSelector": ".price-sell .price-value",
-    "productNameSelector": "li.shelf-product-item .product-title"
+    "productNameSelector": "li.shelf-product-item .product-title",
+    "eshopType": "wallmart"
   }
 }
