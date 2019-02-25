@@ -2,6 +2,7 @@
   "htmlExludedTags": ["script","style","head"],
   "wallmart": {
     "searchString": "https://www.walmart.com.br/busca/?ft=<keyword>&PS=<quantity>",
+    "searchStringKeywordSeparator": "+",
     "productSelector": "li.shelf-product-item",
     "productLinkSelector": "a",
     "normalizeLinkKeywords": ["//"],

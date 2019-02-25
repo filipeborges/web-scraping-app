@@ -1,15 +1,18 @@
 import config from './config';
+import buildUrl from '../util/StringUtils';
 
 const configCopy = { ...config };
 
 export default class WallmartConfig {
-  static getConfig(keyword, pageResultQuantity) {
-    if (!keyword || !pageResultQuantity) {
+  static getConfig(keywords, pageResultQuantity) {
+    if (!keywords || !keywords.length || !pageResultQuantity) {
       throw new Error('WallmartConfig.getConfig: Missing parameter info');
     }
-    const url = configCopy.wallmart.searchString
-      .replace('<keyword>', keyword)
-      .replace('<quantity>', pageResultQuantity);
+
+    const { searchString, searchStringKeywordSeparator } = configCopy.wallmart;
+
+    const url = buildUrl(searchString, searchStringKeywordSeparator,
+      keywords, pageResultQuantity);
 
     configCopy.wallmart.url = url;
     return configCopy.wallmart;

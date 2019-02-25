@@ -3,11 +3,11 @@ import WallmartConfig from './src/config/WallmartConfig';
 import HtmlProcessor from './src/HtmlProcessor';
 import ResultProcessor from './src/ResultProcessor';
 
-const keyword = 'ps4';
-const maxPriceValue = '1800';
+const keywords = ['console', 'ps4'];
+const maxPriceValue = '1700';
 
 // TODO: Define maxNumber of products to fetch;
-const config = WallmartConfig.getConfig(keyword, 100);
+const config = WallmartConfig.getConfig(keywords, 100);
 
 DriverBrowser.retriveHtmlWithDelay(config.url)
   .then((html) => {
