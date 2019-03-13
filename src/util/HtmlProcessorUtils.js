@@ -32,6 +32,13 @@ export default class HtmlProcessorUtil {
     return normalizedLinks;
   }
 
+  static normalizeProductDetailLink(link, keywordsToExclude) {
+    if (!link || !keywordsToExclude) {
+      return undefined;
+    }
+    return normalizeLink(link, keywordsToExclude);
+  }
+
   static isValidLink(link, validLinkPatterns) {
     if (!link || !validLinkPatterns) {
       throw new Error('HtmlProcessorUtil.isValidLink: Missing parameter info');

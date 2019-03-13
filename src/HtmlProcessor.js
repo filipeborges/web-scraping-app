@@ -4,10 +4,6 @@ import WallmartConfig from './config/WallmartConfig';
 import WallmartProcessor from './eshop/WallmartProcessor';
 // import Logger from './log/Logger';
 
-// const isValidSearchString = searchString => (
-//   searchString && !searchString.match('<|>')
-// );
-
 const isValidConfig = config => (
   config
   && config.productSelector
@@ -28,48 +24,58 @@ export default class HtmlProcessor {
     this.productsCheerio = this.$(this.config.productSelector);
   }
 
-  numberOfProductMatches() {
-    return this.$(this.config.productSelector).length;
-  }
+  buildResultCollection() {
+    const result = [];
 
-  getProductPrices() {
-    const prices = [];
-    const productPrices = this.productsCheerio.find(this.config.productPriceSelector);
-    productPrices.each((i, elem) => {
-      if (this.config.eshopType === WallmartConfig.eshopType()) {
-        prices.push(WallmartProcessor.extractElemPrice(elem));
+    this.productsCheerio.each((i, elem) => {
+      const productPrice = this.getProductPrice(elem);
+      const productDetailLink = productPrice && this.getProductDetailLink(elem);
+      const productName = productDetailLink && this.getProductName(elem);
+
+      if (productName) {
+        result.push({
+          name: productName,
+          price: productPrice,
+          detailLink: productDetailLink,
+        });
       }
     });
-    return prices;
+    return result;
   }
 
-  getProductNames() {
-    const names = [];
-    const productNames = this.productsCheerio.find(this.config.productNameSelector);
-    productNames.each((i, elem) => {
-      if (this.config.eshopType === WallmartConfig.eshopType()) {
-        names.push(WallmartProcessor.extractElemProductName(elem));
-      }
-    });
-    return names;
+  getProductPrice(productCheerio) {
+    const productPrice = cheerio(productCheerio)
+      .find((this.config.productPriceSelector))[0];
+
+    if (this.config.eshopType === WallmartConfig.eshopType()) {
+      return WallmartProcessor.extractElemPrice(productPrice);
+    }
+    return undefined;
   }
 
-  getProductDetailLinks() {
-    const urls = [];
+  getProductName(productCheerio) {
+    const productPrice = cheerio(productCheerio)
+      .find((this.config.productNameSelector))[0];
+
+    if (this.config.eshopType === WallmartConfig.eshopType()) {
+      return WallmartProcessor.extractElemProductName(productPrice);
+    }
+    return undefined;
+  }
+
+  getProductDetailLink(productCheerio) {
+    const productPrice = cheerio(productCheerio)
+      .find((this.config.productLinkSelector))[0];
     let linkStr;
 
-    this.productsCheerio
-      .find(this.config.productLinkSelector)
-      .each((i, elem) => {
-        if (this.config.eshopType === WallmartConfig.eshopType()) {
-          linkStr = WallmartProcessor.extractElemLinkDetail(elem);
-        }
-        const linkAlreadyExists = urls.some(url => url === linkStr);
-        if (!linkAlreadyExists
-          && HtmlProcessorUtils.isValidLink(linkStr, this.config.validLinkPatterns)) {
-          urls.push(linkStr);
-        }
-      });
-    return HtmlProcessorUtils.normalizeProductDetailLinks(urls, this.config.normalizeLinkKeywords);
+    if (this.config.eshopType === WallmartConfig.eshopType()) {
+      linkStr = WallmartProcessor.extractElemLinkDetail(productPrice);
+    }
+
+    if (HtmlProcessorUtils.isValidLink(linkStr, this.config.validLinkPatterns)) {
+      return HtmlProcessorUtils
+        .normalizeProductDetailLink(linkStr, this.config.normalizeLinkKeywords);
+    }
+    return undefined;
   }
 }
