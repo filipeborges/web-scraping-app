@@ -4,31 +4,21 @@ import WallmartConfig from './config/WallmartConfig';
 import WallmartProcessor from './eshop/WallmartProcessor';
 // import Logger from './log/Logger';
 
-const isValidConfig = config => (
-  config
-  && config.productSelector
-  && config.productLinkSelector
-  && config.productPriceSelector
-  && config.productNameSelector
-  && config.validLinkPatterns
-);
-
 export default class HtmlProcessor {
   constructor(html, config) {
-    if (!isValidConfig(config)) {
-      throw new Error('HtmlProcessor.constructor: Missing config info');
-    }
-
     this.config = config;
     this.$ = cheerio.load(html);
     this.productsCheerio = this.$(this.config.productSelector);
   }
 
-  buildResultCollection() {
+  buildResultCollection(resultProcessor) {
     const result = [];
 
     this.productsCheerio.each((i, elem) => {
-      const productPrice = this.getProductPrice(elem);
+      let productPrice = this.getProductPrice(elem);
+      productPrice = resultProcessor.isDesiredProductPrice(productPrice)
+        ? productPrice : undefined;
+
       const productDetailLink = productPrice && this.getProductDetailLink(elem);
       const productName = productDetailLink && this.getProductName(elem);
 
