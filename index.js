@@ -6,19 +6,12 @@ import ResultProcessor from './src/ResultProcessor';
 const keywords = ['console', 'ps4'];
 const maxPriceValue = '100';
 
-const drivers = [];
-
 try {
   const config = WallmartConfig.getConfig(keywords);
   const resultProc = new ResultProcessor(maxPriceValue);
+  const driverBrowser = new DriverBrowser();
 
-  const fetchPromises = config.urls.map((url) => {
-    const driverBrowser = new DriverBrowser();
-    drivers.push(driverBrowser);
-    return driverBrowser.retriveHtmlWithDelay(url);
-  });
-
-  Promise.all(fetchPromises)
+  driverBrowser.retriveHtmlWithDelay(config.urls)
     .then((pagesHtml) => {
       const result = [];
 
@@ -29,13 +22,13 @@ try {
 
       console.log(result);
       console.log(result.length);
-      drivers.forEach(driver => driver.quit());
+
+      driverBrowser.quit();
     })
     .catch((err) => {
       console.log(err);
-      drivers.forEach(driver => driver.quit());
+      driverBrowser.quit();
     });
 } catch (err) {
   console.log(err);
-  drivers.forEach(driver => driver.quit());
 }

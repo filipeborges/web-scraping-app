@@ -12,37 +12,44 @@ export default class DriverBrowser {
       .setBinary(process.env.BROWSER_BIN_PATH)
       .headless();
 
+    this.pagesHtml = [];
     this.driver = new Builder()
       .forBrowser(Browser.FIREFOX)
       .setFirefoxOptions(firefoxOptions)
       .build();
   }
 
-  $getHtmlViaGetRequest(url) {
-    return this.driver.get(url)
+  $getHtmlViaGetRequest(urls) {
+    const currentUrl = urls.pop();
+
+    return this.driver.get(currentUrl)
       .then(() => (
         this.driver.getPageSource()
+          .then((html) => {
+            this.pagesHtml.push(html);
+
+            if (urls.length === 0) {
+              return this.pagesHtml;
+            }
+
+            return this.$getHtmlViaGetRequest(urls);
+          })
           .catch((err) => {
-            // Logger.logError(err);
             console.log(err);
             throw err;
           })
-      ))
-      .catch((err) => {
-        // Logger.logError(err);
-        console.log(err);
-        throw err;
-      });
+      ));
   }
 
-  retriveHtmlWithDelay(url) {
+  retriveHtmlWithDelay(urls) {
+    urls.reverse();
     return (
       new Promise((resolve) => {
         setTimeout(() => {
           resolve();
         }, getRandomNumber(0, 7000));
       })
-    ).then(() => this.$getHtmlViaGetRequest(url));
+    ).then(() => this.$getHtmlViaGetRequest(urls));
   }
 
   quit() {
