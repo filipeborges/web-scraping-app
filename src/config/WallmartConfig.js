@@ -4,7 +4,8 @@ import validateConfig from '../util/configUtils';
 
 const configCopy = { ...config };
 
-const MAX_SEARCH_QUANTITY = 100;
+const MAX_SEARCH_QUANTITY = 40;
+const pagesToFetch = [1, 2, 3, 4, 5];
 
 export default class WallmartConfig {
   static getConfig(keywords) {
@@ -14,10 +15,10 @@ export default class WallmartConfig {
 
     const { searchString, searchStringKeywordSeparator } = configCopy.wallmart;
 
-    const url = buildUrl(searchString, searchStringKeywordSeparator,
-      keywords, MAX_SEARCH_QUANTITY);
+    configCopy.wallmart.urls = pagesToFetch.map(pageNumber => (
+      buildUrl(searchString, searchStringKeywordSeparator,
+        keywords, MAX_SEARCH_QUANTITY, pageNumber)));
 
-    configCopy.wallmart.url = url;
     validateConfig(configCopy.wallmart);
     return configCopy.wallmart;
   }

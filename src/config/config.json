@@ -1,7 +1,7 @@
 {
   "htmlExludedTags": ["script","style","head"],
   "wallmart": {
-    "searchString": "https://www.walmart.com.br/busca/?ft=<keyword>&PS=<quantity>",
+    "searchString": "https://www.walmart.com.br/busca/?ft=<keyword>&PS=<quantity>&PageNumber=<pageNumber>",
     "searchStringKeywordSeparator": "+",
     "productSelector": "li.shelf-product-item",
     "productLinkSelector": "a",

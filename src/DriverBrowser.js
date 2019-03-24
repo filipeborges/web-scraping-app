@@ -3,7 +3,7 @@ import { Options } from 'selenium-webdriver/firefox';
 // import Logger from './log/Logger';
 import { getRandomNumber } from './util/NumberUtils';
 
-class DriverBrowser {
+export default class DriverBrowser {
   constructor() {
     process.env.PATH = `${process.env.PATH}:${process.env.BROWSER_DRIVER_PATH}`;
 
@@ -49,7 +49,3 @@ class DriverBrowser {
     this.driver.quit();
   }
 }
-
-const driverBrowser = new DriverBrowser();
-
-export default driverBrowser;

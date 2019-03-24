@@ -1,6 +1,6 @@
 const isValidConfig = config => (
   config
-  && config.url
+  && config.urls
   && config.productSelector
   && config.productLinkSelector
   && config.productPriceSelector
