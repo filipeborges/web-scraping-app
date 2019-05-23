@@ -3,7 +3,7 @@ const getRandomNumber = (min, max) => (
 );
 
 const normalizeNumberString = numberStr => (
-  numberStr.replace(/[R$\s\.]/gi, '').replace(',', '.')
+  numberStr.replace(/[R$\s\.]/gi, '').replace('.', '').replace(',', '.')
 );
 
 export { getRandomNumber, normalizeNumberString };

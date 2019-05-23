@@ -1,13 +1,15 @@
 import DriverBrowser from './src/DriverBrowser';
-import WallmartConfig from './src/config/WallmartConfig';
+// import WallmartConfig from './src/config/WallmartConfig';
 import HtmlProcessor from './src/HtmlProcessor';
 import ResultProcessor from './src/ResultProcessor';
+import AmericanasConfig from './src/config/AmericanasConfig';
 
-const keywords = ['console', 'ps4'];
-const maxPriceValue = '100';
+const keywords = ['ps4'];
+const maxPriceValue = '3000';
 
 try {
-  const config = WallmartConfig.getConfig(keywords);
+  // const config = WallmartConfig.getConfig(keywords);
+  const config = AmericanasConfig.getConfig(keywords);
   const resultProc = new ResultProcessor(maxPriceValue);
   const driverBrowser = new DriverBrowser();
 
@@ -21,7 +23,6 @@ try {
       });
 
       console.log(result);
-      console.log(result.length);
 
       driverBrowser.quit();
     })

@@ -10,5 +10,17 @@
     "productPriceSelector": ".price-sell .price-value",
     "productNameSelector": "li.shelf-product-item .product-title",
     "eshopType": "wallmart"
+  },
+  "americanas": {
+    "searchString": "https://www.americanas.com.br/busca/<keyword>?limite=<itemsPerPage>&offset=<offset>",
+    "searchStringKeywordSeparator": "-",
+    "productSelector": ".main-grid div.product-grid-item",
+    "productLinkSelector": "a",
+    "productPriceSelector": "[class^='PriceUI']",
+    "productNameSelector": "[class^='TitleUI']",
+    "validLinkPatterns": ["/produto/", "www"],
+    "eshopType": "americanas",
+    "normalizeLinkKeywords": []
   }
 }
+
