@@ -1,16 +1,5 @@
 {
   "htmlExludedTags": ["script","style","head"],
-  "wallmart": {
-    "searchString": "https://www.walmart.com.br/busca/?ft=<keyword>&PS=<quantity>&PageNumber=<pageNumber>",
-    "searchStringKeywordSeparator": "+",
-    "productSelector": "li.shelf-product-item",
-    "productLinkSelector": "a",
-    "normalizeLinkKeywords": ["//"],
-    "validLinkPatterns": ["www"],
-    "productPriceSelector": ".price-sell .price-value",
-    "productNameSelector": "li.shelf-product-item .product-title",
-    "eshopType": "wallmart"
-  },
   "americanas": {
     "searchString": "https://www.americanas.com.br/busca/<keyword>?limite=<itemsPerPage>&offset=<offset>",
     "searchStringKeywordSeparator": "-",

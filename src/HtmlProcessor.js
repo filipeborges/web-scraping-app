@@ -1,7 +1,5 @@
 import cheerio from 'cheerio';
 import HtmlProcessorUtils from './util/HtmlProcessorUtils';
-import WallmartConfig from './config/WallmartConfig';
-import WallmartProcessor from './eshop/WallmartProcessor';
 import AmericanasConfig from './config/AmericanasConfig';
 import AmericanasProcessor from './eshop/AmericanasProcessor';
 // import Logger from './log/Logger';
@@ -38,9 +36,6 @@ export default class HtmlProcessor {
     const productPrice = cheerio(productCheerio)
       .find((this.config.productPriceSelector))[0];
 
-    if (this.config.eshopType === WallmartConfig.eshopType()) {
-      return WallmartProcessor.extractElemPrice(productPrice);
-    }
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemPrice(productPrice);
     }
@@ -52,9 +47,6 @@ export default class HtmlProcessor {
     const productName = cheerio(productCheerio)
       .find((this.config.productNameSelector))[0];
 
-    if (this.config.eshopType === WallmartConfig.eshopType()) {
-      return WallmartProcessor.extractElemProductName(productName);
-    }
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemProductName(productName);
     }
@@ -67,9 +59,6 @@ export default class HtmlProcessor {
       .find((this.config.productLinkSelector))[0];
     let linkStr;
 
-    if (this.config.eshopType === WallmartConfig.eshopType()) {
-      linkStr = WallmartProcessor.extractElemLinkDetail(productDetailLink);
-    }
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       linkStr = AmericanasProcessor.extractElemLinkDetail(productDetailLink);
     }
