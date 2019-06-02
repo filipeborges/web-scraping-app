@@ -2,6 +2,7 @@ import DriverBrowser from './src/DriverBrowser';
 import HtmlProcessor from './src/HtmlProcessor';
 import ResultProcessor from './src/ResultProcessor';
 import AmericanasConfig from './src/config/AmericanasConfig';
+import logger from './src/log/logger';
 
 const keywords = ['ps4'];
 const maxPriceValue = '3000';
@@ -20,14 +21,14 @@ try {
         result.push(...htmlProc.buildResultCollection(resultProc));
       });
 
-      console.log(result);
+      logger.info(result);
 
       driverBrowser.quit();
     })
     .catch((err) => {
-      console.log(err);
+      logger.error(err);
       driverBrowser.quit();
     });
 } catch (err) {
-  console.log(err);
+  logger.error(err);
 }

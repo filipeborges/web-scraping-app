@@ -11,8 +11,6 @@ const isValidConfig = config => (
 
 const validateConfig = (config) => {
   if (!isValidConfig(config)) {
-    console.log('============= E-SHOP CONFIG ===================');
-    console.log(config);
     throw new Error('E-Shop invalid config');
   }
 };

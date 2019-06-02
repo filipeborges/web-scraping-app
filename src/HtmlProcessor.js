@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import HtmlProcessorUtils from './util/HtmlProcessorUtils';
 import AmericanasConfig from './config/AmericanasConfig';
 import AmericanasProcessor from './eshop/AmericanasProcessor';
-// import Logger from './log/Logger';
+import logger from './log/logger';
 
 export default class HtmlProcessor {
   constructor(html, config) {
@@ -39,7 +39,7 @@ export default class HtmlProcessor {
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemPrice(productPrice);
     }
-    console.log('getProductPrice() fail');
+    logger.warn('getProductPrice() fail');
     return undefined;
   }
 
@@ -50,7 +50,7 @@ export default class HtmlProcessor {
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemProductName(productName);
     }
-    console.log('getProductName() fail');
+    logger.warn('getProductName() fail');
     return undefined;
   }
 
@@ -67,7 +67,7 @@ export default class HtmlProcessor {
       return HtmlProcessorUtils
         .normalizeProductDetailLink(linkStr, this.config.normalizeLinkKeywords);
     }
-    console.log('getProductDetailLink() fail');
+    logger.warn('getProductDetailLink() fail');
     return undefined;
   }
 }

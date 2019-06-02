@@ -1,6 +1,6 @@
 import { Builder, Browser } from 'selenium-webdriver';
 import { Options } from 'selenium-webdriver/firefox';
-// import Logger from './log/Logger';
+import logger from './log/logger';
 import { getRandomNumber } from './util/NumberUtils';
 
 export default class DriverBrowser {
@@ -35,7 +35,7 @@ export default class DriverBrowser {
             return this.$getHtmlViaGetRequest(urls);
           })
           .catch((err) => {
-            console.log(err);
+            logger.error(err);
             throw err;
           })
       ));

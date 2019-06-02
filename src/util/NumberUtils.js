@@ -3,6 +3,7 @@ const getRandomNumber = (min, max) => (
 );
 
 const normalizeNumberString = numberStr => (
+  // eslint-disable-next-line no-useless-escape
   numberStr.replace(/[R$\s\.]/gi, '').replace('.', '').replace(',', '.')
 );
 

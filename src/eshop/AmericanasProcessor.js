@@ -1,9 +1,11 @@
+import logger from '../log/logger';
+
 export default class AmericanasProcessor {
   static extractElemPrice(elem) {
     try {
       return elem.children[2].data;
     } catch (err) {
-      console.log('extractElemPrice() fail');
+      logger.warn('extractElemPrice() fail');
       return undefined;
     }
   }
@@ -12,7 +14,7 @@ export default class AmericanasProcessor {
     try {
       return elem.children[0].data;
     } catch (err) {
-      console.log('extractElemProductName() fail');
+      logger.warn('extractElemProductName() fail');
       return undefined;
     }
   }
@@ -21,7 +23,7 @@ export default class AmericanasProcessor {
     try {
       return `www.americanas.com.br${elem.attribs.href}`;
     } catch (err) {
-      console.log('extractElemLinkDetail() fail');
+      logger.warn('extractElemLinkDetail() fail');
       return undefined;
     }
   }
