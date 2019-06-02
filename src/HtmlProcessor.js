@@ -2,6 +2,8 @@ import cheerio from 'cheerio';
 import HtmlProcessorUtils from './util/HtmlProcessorUtils';
 import AmericanasConfig from './config/AmericanasConfig';
 import AmericanasProcessor from './eshop/AmericanasProcessor';
+import SubmarinoConfig from './config/SubmarinoConfig';
+import SubmarinoProcessor from './eshop/SubmarinoProcessor';
 import logger from './log/logger';
 
 export default class HtmlProcessor {
@@ -39,6 +41,10 @@ export default class HtmlProcessor {
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemPrice(productPrice);
     }
+    if (this.config.eshopType === SubmarinoConfig.eshopType()) {
+      return SubmarinoProcessor.extractElemPrice(productPrice);
+    }
+
     logger.warn('getProductPrice() fail');
     return undefined;
   }
@@ -50,6 +56,10 @@ export default class HtmlProcessor {
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemProductName(productName);
     }
+    if (this.config.eshopType === SubmarinoConfig.eshopType()) {
+      return SubmarinoProcessor.extractElemProductName(productName);
+    }
+
     logger.warn('getProductName() fail');
     return undefined;
   }
@@ -61,6 +71,9 @@ export default class HtmlProcessor {
 
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       linkStr = AmericanasProcessor.extractElemLinkDetail(productDetailLink);
+    }
+    if (this.config.eshopType === SubmarinoConfig.eshopType()) {
+      return SubmarinoProcessor.extractElemLinkDetail(productDetailLink);
     }
 
     if (HtmlProcessorUtils.isValidLink(linkStr, this.config.validLinkPatterns)) {
