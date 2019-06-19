@@ -21,6 +21,18 @@
     "validLinkPatterns": ["/produto/", "www"],
     "eshopType": "submarino",
     "normalizeLinkKeywords": []
+  },
+  "amazon": {
+    "searchString": "https://www.amazon.com.br/s?k=<keyword>&page=<page>",
+    "searchStringKeywordSeparator": "+",
+    "productSelector": ".s-result-item",
+    "productLinkSelector": ".rush-component .a-link-normal",
+    "productPriceSelector": ".a-price-whole",
+    "productPriceFractionSelector": ".a-price-fraction",
+    "productNameSelector": ".a-color-base.a-text-normal",
+    "validLinkPatterns": ["www"],
+    "eshopType": "amazon",
+    "normalizeLinkKeywords": []
   }
 }
 
