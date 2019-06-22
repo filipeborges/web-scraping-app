@@ -4,6 +4,8 @@ import AmericanasConfig from './config/AmericanasConfig';
 import AmericanasProcessor from './eshop/AmericanasProcessor';
 import SubmarinoConfig from './config/SubmarinoConfig';
 import SubmarinoProcessor from './eshop/SubmarinoProcessor';
+import AmazonConfig from './config/AmazonConfig';
+import AmazonProcessor from './eshop/AmazonProcessor';
 import logger from './log/logger';
 
 export default class HtmlProcessor {
@@ -36,13 +38,18 @@ export default class HtmlProcessor {
 
   getProductPrice(productCheerio) {
     const productPrice = cheerio(productCheerio)
-      .find((this.config.productPriceSelector))[0];
+      .find(this.config.productPriceSelector)[0];
 
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       return AmericanasProcessor.extractElemPrice(productPrice);
     }
     if (this.config.eshopType === SubmarinoConfig.eshopType()) {
       return SubmarinoProcessor.extractElemPrice(productPrice);
+    }
+    if (this.config.eshopType === AmazonConfig.eshopType()) {
+      const productPriceFraction = cheerio(productCheerio)
+        .find(this.config.productPriceFractionSelector)[0];
+      return AmazonProcessor.extractElemPrice(productPrice, productPriceFraction);
     }
 
     logger.warn('getProductPrice() fail');
@@ -59,6 +66,9 @@ export default class HtmlProcessor {
     if (this.config.eshopType === SubmarinoConfig.eshopType()) {
       return SubmarinoProcessor.extractElemProductName(productName);
     }
+    if (this.config.eshopType === AmazonConfig.eshopType()) {
+      return AmazonProcessor.extractElemProductName(productName);
+    }
 
     logger.warn('getProductName() fail');
     return undefined;
@@ -73,8 +83,13 @@ export default class HtmlProcessor {
       linkStr = AmericanasProcessor.extractElemLinkDetail(productDetailLink);
     }
     if (this.config.eshopType === SubmarinoConfig.eshopType()) {
+      // TODO: Correct
       return SubmarinoProcessor.extractElemLinkDetail(productDetailLink);
     }
+    if (this.config.eshopType === AmazonConfig.eshopType()) {
+      linkStr = AmazonProcessor.extractElemLinkDetail(productDetailLink);
+    }
+
 
     if (HtmlProcessorUtils.isValidLink(linkStr, this.config.validLinkPatterns)) {
       return HtmlProcessorUtils
