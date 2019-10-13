@@ -3,7 +3,7 @@ const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: ['./index.js'],
+  entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'app.js',
@@ -13,6 +13,15 @@ module.exports = {
   mode: 'development',
   module: {
     rules: [
+      {
+        test: /\.tsx?/,
+        exclude: /(node_modules)/,
+        use: [
+          {
+            loader: 'awesome-typescript-loader',
+          },
+        ],
+      },
       {
         test: /\.m?js$/,
         exclude: /(node_modules)/,
@@ -35,8 +44,11 @@ module.exports = {
             },
           },
           {
-            loader: 'eslint-loader',
+            loader: 'source-map-loader',
           },
+          // {
+          //   loader: 'eslint-loader',
+          // },
         ],
       },
     ],
@@ -50,4 +62,8 @@ module.exports = {
     }),
   ],
   devtool: 'sourcemap',
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.json', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+  },
 };

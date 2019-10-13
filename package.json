@@ -14,9 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "~7.0.0",
+    "awesome-typescript-loader": "^5.2.1",
     "cheerio": "~1.0.0-rc.2",
     "dotenv": "~6.2.0",
     "selenium-webdriver": "~3.6.0",
+    "source-map-loader": "^0.2.4",
+    "typescript": "^3.6.4",
     "winston": "~2.4.4"
   },
   "devDependencies": {
