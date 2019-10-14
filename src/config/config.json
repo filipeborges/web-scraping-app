@@ -32,7 +32,8 @@
     "productNameSelector": ".a-color-base.a-text-normal",
     "validLinkPatterns": ["www"],
     "eshopType": "amazon",
-    "normalizeLinkKeywords": []
+    "normalizeLinkKeywords": [],
+    "urls": []
   }
 }
 
