@@ -21,7 +21,8 @@
     "productNameSelector": "[class^='TitleUI']",
     "validLinkPatterns": ["/produto/", "www"],
     "eshopType": "submarino",
-    "normalizeLinkKeywords": []
+    "normalizeLinkKeywords": [],
+    "urls": []
   },
   "amazon": {
     "searchString": "https://www.amazon.com.br/s?k=<keyword>&page=<page>",
