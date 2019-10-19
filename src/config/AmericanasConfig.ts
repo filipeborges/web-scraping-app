@@ -1,16 +1,17 @@
-import config from './config';
+import config from './config.json';
 import validateConfig from '../util/configUtils';
+import { Config } from './config.interface.js';
 
-const configCopy = { ...config };
+const configCopy: Config = { ...config };
 
-const buildUrl = (searchString, separator, keywords, itemsPerPage, offset) => {
+const buildUrl = (searchString: string, separator: string, keywords: string[], itemsPerPage: number, offset: number) => {
   const keywordParam = keywords.reduce((accumulator, keyword) => (
     `${accumulator}${separator}${keyword}`
   ));
   return searchString
     .replace('<keyword>', keywordParam)
-    .replace('<itemsPerPage>', itemsPerPage)
-    .replace('<offset>', offset);
+    .replace('<itemsPerPage>', itemsPerPage + '')
+    .replace('<offset>', offset + '');
 };
 
 const ITEMS_PER_PAGE = 24;

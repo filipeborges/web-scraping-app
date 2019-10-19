@@ -9,7 +9,8 @@
     "productNameSelector": "[class^='TitleUI']",
     "validLinkPatterns": ["/produto/", "www"],
     "eshopType": "americanas",
-    "normalizeLinkKeywords": []
+    "normalizeLinkKeywords": [],
+    "urls": []
   },
   "submarino": {
     "searchString": "https://www.submarino.com.br/busca/<keyword>?limite=<itemsPerPage>&offset=<offset>",
