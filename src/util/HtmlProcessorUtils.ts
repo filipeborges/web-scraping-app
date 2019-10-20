@@ -1,4 +1,4 @@
-const normalizeLink = (link, keywordsToExclude) => {
+const normalizeLink = (link: string, keywordsToExclude: string[]) => {
   let normalizedLink = link;
   let regex;
   keywordsToExclude.forEach((keyword) => {
@@ -9,19 +9,20 @@ const normalizeLink = (link, keywordsToExclude) => {
   return normalizedLink;
 };
 
-const buildLinkValidPatternsRegex = validLinkPatterns => (
+const buildLinkValidPatternsRegex = (validLinkPatterns: string[]) => (
   validLinkPatterns.map(validPattern => (
     new RegExp(validPattern)
   ))
 );
 
 export default class HtmlProcessorUtil {
-  static normalizeProductDetailLinks(links, keywordsToExclude) {
+  static normalizeProductDetailLinks(links: string[], keywordsToExclude: string[]) {
+    // TODO: Use normalizeProductDetailLink() method
     if (!links || !keywordsToExclude) {
       throw new Error('HtmlProcessorUtil.normalizeLinks: Missing parameter info');
     }
 
-    const normalizedLinks = [];
+    const normalizedLinks: string[] = [];
 
     links.forEach((link) => {
       if (link) {
@@ -32,14 +33,14 @@ export default class HtmlProcessorUtil {
     return normalizedLinks;
   }
 
-  static normalizeProductDetailLink(link, keywordsToExclude) {
+  static normalizeProductDetailLink(link: string, keywordsToExclude: string[]) {
     if (!link || !keywordsToExclude) {
       return undefined;
     }
     return normalizeLink(link, keywordsToExclude);
   }
 
-  static isValidLink(link, validLinkPatterns) {
+  static isValidLink(link: string, validLinkPatterns: string[]) {
     if (!link || !validLinkPatterns) {
       throw new Error('HtmlProcessorUtil.isValidLink: Missing parameter info');
     }
