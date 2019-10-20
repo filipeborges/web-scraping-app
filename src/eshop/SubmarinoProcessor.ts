@@ -1,7 +1,7 @@
 import logger from '../log/logger';
 
 export default class SubmarinoProcessor {
-  static extractElemPrice(elem) {
+  static extractElemPrice(elem: CheerioElement) {
     try {
       return elem.children[2].data;
     } catch (err) {
@@ -10,7 +10,7 @@ export default class SubmarinoProcessor {
     }
   }
 
-  static extractElemProductName(elem) {
+  static extractElemProductName(elem: CheerioElement) {
     try {
       return elem.children[0].data;
     } catch (err) {
@@ -19,7 +19,7 @@ export default class SubmarinoProcessor {
     }
   }
 
-  static extractElemLinkDetail(elem) {
+  static extractElemLinkDetail(elem: CheerioElement) {
     try {
       return `www.submarino.com.br${elem.attribs.href}`;
     } catch (err) {
