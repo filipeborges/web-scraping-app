@@ -1,6 +1,6 @@
 import logger from '../log/logger';
 
-const extractPriceFraction = (elemPriceFraction) => {
+const extractPriceFraction = (elemPriceFraction: CheerioElement) => {
   const containsPriceFraction = elemPriceFraction
     && elemPriceFraction.children
     && elemPriceFraction.children[0]
@@ -11,7 +11,7 @@ const extractPriceFraction = (elemPriceFraction) => {
 };
 
 export default class AmazonProcessor {
-  static extractElemPrice(elemPrice, elemPriceFraction) {
+  static extractElemPrice(elemPrice: CheerioElement, elemPriceFraction: CheerioElement) {
     try {
       return `${elemPrice.children[0].data}${extractPriceFraction(elemPriceFraction)}`;
     } catch (err) {
@@ -20,7 +20,7 @@ export default class AmazonProcessor {
     }
   }
 
-  static extractElemProductName(elem) {
+  static extractElemProductName(elem: CheerioElement) {
     try {
       return elem.children[0].data;
     } catch (err) {
@@ -29,7 +29,7 @@ export default class AmazonProcessor {
     }
   }
 
-  static extractElemLinkDetail(elem) {
+  static extractElemLinkDetail(elem: CheerioElement) {
     try {
       return `www.amazon.com.br${elem.attribs.href}`;
     } catch (err) {
