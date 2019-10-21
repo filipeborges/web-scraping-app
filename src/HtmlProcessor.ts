@@ -7,16 +7,29 @@ import SubmarinoProcessor from './eshop/SubmarinoProcessor';
 import AmazonConfig from './config/AmazonConfig';
 import AmazonProcessor from './eshop/AmazonProcessor';
 import logger from './log/logger';
+import { EshopConfig } from './config/config.interface';
+import ResultProcessor from './ResultProcessor';
+
+type ResultCollection = {
+  name: string;
+  price: string;
+  detailLink: string;
+}[];
 
 export default class HtmlProcessor {
-  constructor(html, config) {
+
+  private config: EshopConfig;
+  private $: CheerioStatic;
+  private productsCheerio: Cheerio;
+
+  constructor(html: string, config: EshopConfig) {
     this.config = config;
     this.$ = cheerio.load(html);
     this.productsCheerio = this.$(this.config.productSelector);
   }
 
-  buildResultCollection(resultProcessor) {
-    const result = [];
+  buildResultCollection(resultProcessor: ResultProcessor) {
+    const result: ResultCollection = [];
 
     this.productsCheerio.each((i, elem) => {
       let productPrice = this.getProductPrice(elem);
@@ -36,7 +49,7 @@ export default class HtmlProcessor {
     return result;
   }
 
-  getProductPrice(productCheerio) {
+  getProductPrice(productCheerio: CheerioElement) {
     const productPrice = cheerio(productCheerio)
       .find(this.config.productPriceSelector)[0];
 
@@ -46,7 +59,10 @@ export default class HtmlProcessor {
     if (this.config.eshopType === SubmarinoConfig.eshopType()) {
       return SubmarinoProcessor.extractElemPrice(productPrice);
     }
-    if (this.config.eshopType === AmazonConfig.eshopType()) {
+    if (
+      this.config.eshopType === AmazonConfig.eshopType()
+      && 'productPriceFractionSelector' in this.config
+    ) {
       const productPriceFraction = cheerio(productCheerio)
         .find(this.config.productPriceFractionSelector)[0];
       return AmazonProcessor.extractElemPrice(productPrice, productPriceFraction);
@@ -56,7 +72,7 @@ export default class HtmlProcessor {
     return undefined;
   }
 
-  getProductName(productCheerio) {
+  getProductName(productCheerio: CheerioElement) {
     const productName = cheerio(productCheerio)
       .find((this.config.productNameSelector))[0];
 
@@ -74,10 +90,10 @@ export default class HtmlProcessor {
     return undefined;
   }
 
-  getProductDetailLink(productCheerio) {
+  getProductDetailLink(productCheerio: CheerioElement) {
     const productDetailLink = cheerio(productCheerio)
       .find((this.config.productLinkSelector))[0];
-    let linkStr;
+    let linkStr: string;
 
     if (this.config.eshopType === AmericanasConfig.eshopType()) {
       linkStr = AmericanasProcessor.extractElemLinkDetail(productDetailLink);
