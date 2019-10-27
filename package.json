@@ -1,6 +1,6 @@
 {
   "name": "template-project",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Templete for node js with VS Code debug, Webpack, Babel and AirBnb Eslint.",
   "main": "index.js",
   "scripts": {
