@@ -17,20 +17,7 @@ const buildLinkValidPatternsRegex = (validLinkPatterns: string[]) => (
 
 export default class HtmlProcessorUtil {
   static normalizeProductDetailLinks(links: string[], keywordsToExclude: string[]) {
-    // TODO: Use normalizeProductDetailLink() method
-    if (!links || !keywordsToExclude) {
-      throw new Error('HtmlProcessorUtil.normalizeLinks: Missing parameter info');
-    }
-
-    const normalizedLinks: string[] = [];
-
-    links.forEach((link) => {
-      if (link) {
-        normalizedLinks.push(normalizeLink(link, keywordsToExclude));
-      }
-    });
-
-    return normalizedLinks;
+    return links.map(link => this.normalizeProductDetailLink(link, keywordsToExclude));
   }
 
   static normalizeProductDetailLink(link: string, keywordsToExclude: string[]) {

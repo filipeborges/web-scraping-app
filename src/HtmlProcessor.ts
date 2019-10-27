@@ -10,7 +10,7 @@ import logger from './log/logger';
 import { EshopConfig } from './config/config.interface';
 import ResultProcessor from './ResultProcessor';
 
-type ResultCollection = {
+export type ResultCollection = {
   name: string;
   price: string;
   detailLink: string;
@@ -99,7 +99,6 @@ export default class HtmlProcessor {
       linkStr = AmericanasProcessor.extractElemLinkDetail(productDetailLink);
     }
     if (this.config.eshopType === SubmarinoConfig.eshopType()) {
-      // TODO: Correct
       return SubmarinoProcessor.extractElemLinkDetail(productDetailLink);
     }
     if (this.config.eshopType === AmazonConfig.eshopType()) {

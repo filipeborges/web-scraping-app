@@ -8,13 +8,13 @@ import {
 import { Options } from 'selenium-webdriver/firefox';
 
 class Controller {
-  public buildHeadlessFirefox(
-    numInstances: number
-  ): Promise<WebDriver[] | Error> {
+  public buildHeadlessFirefox(): Promise<WebDriver[] | Error> {
     const instances: ThenableWebDriver[] = [];
     const options = new Options()
       .setBinary(process.env.BROWSER_BIN_PATH)
       .headless();
+
+    const numInstances = Number(process.env.DRIVER_INSTANCES);
 
     try {
       for (let i = 0; i < numInstances; i++) {

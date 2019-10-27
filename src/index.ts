@@ -1,6 +1,5 @@
-// import DriverBrowser from './DriverBrowser';
 import { controller } from './webdriver-controller';
-import HtmlProcessor from './HtmlProcessor';
+import HtmlProcessor, { ResultCollection } from './HtmlProcessor';
 import ResultProcessor from './ResultProcessor';
 // import AmericanasConfig from './config/AmericanasConfig';
 import SubmarinoConfig from './config/SubmarinoConfig';
@@ -18,12 +17,12 @@ try {
   const resultProc = new ResultProcessor(maxPriceValue);
 
   let instances: WebDriver[];
-  let result = []; // TODO: Type this var
+  let result: ResultCollection = [];
 
-  controller.buildHeadlessFirefox(2) // TODO: Move to instances value to .env
+  controller.buildHeadlessFirefox()
     .then(webdriverList => {
       instances = webdriverList as WebDriver[];
-      return controller.fetch(config.urls, instances)
+      return controller.fetch(config.urls, instances) // TODO: Need to return {pageSrc, eshopType}[];
     })
     .then(pagesSrc => {
       pagesSrc.forEach(pageSrc => {
