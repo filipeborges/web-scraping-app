@@ -10,7 +10,7 @@
     "validLinkPatterns": ["/produto/", "www"],
     "eshopType": "americanas",
     "normalizeLinkKeywords": [],
-    "urls": []
+    "data": [{ "url": "", "eshop": "" }]
   },
   "submarino": {
     "searchString": "https://www.submarino.com.br/busca/<keyword>?limite=<itemsPerPage>&offset=<offset>",
@@ -22,7 +22,7 @@
     "validLinkPatterns": ["/produto/", "www"],
     "eshopType": "submarino",
     "normalizeLinkKeywords": [],
-    "urls": []
+    "data": [{ "url": "", "eshop": "" }]
   },
   "amazon": {
     "searchString": "https://www.amazon.com.br/s?k=<keyword>&page=<page>",
@@ -35,7 +35,7 @@
     "validLinkPatterns": ["www"],
     "eshopType": "amazon",
     "normalizeLinkKeywords": [],
-    "urls": []
+    "data": [{ "url": "", "eshop": "" }]
   }
 }
 

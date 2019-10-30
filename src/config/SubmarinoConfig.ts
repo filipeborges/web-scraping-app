@@ -22,12 +22,13 @@ export default class SubmarinoConfig {
       throw new Error('SubmarinoConfig.getConfig: Missing parameter info');
     }
 
-    const { searchString, searchStringKeywordSeparator } = configCopy.submarino;
+    const { searchString, searchStringKeywordSeparator, eshopType } = configCopy.submarino;
 
-    configCopy.submarino.urls = pagesToFetch.map((pageNumber, index) => (
-      buildUrl(searchString, searchStringKeywordSeparator,
-        keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index)
-    ));
+    configCopy.submarino.data = pagesToFetch.map((pageNumber, index) => {
+      const url = buildUrl(searchString, searchStringKeywordSeparator,
+        keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index);
+      return { url, eshop: eshopType } // TODO: Unify this interface
+    });
 
     validateConfig(configCopy.submarino);
     return configCopy.submarino;

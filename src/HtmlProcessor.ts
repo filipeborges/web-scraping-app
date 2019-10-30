@@ -9,6 +9,7 @@ import AmazonProcessor from './eshop/AmazonProcessor';
 import logger from './log/logger';
 import { EshopConfig } from './config/config.interface';
 import ResultProcessor from './ResultProcessor';
+import { FetchData } from './webdriver-controller/controller'; // TODO: Review this interface import
 
 export type ResultCollection = {
   name: string;
@@ -22,9 +23,9 @@ export default class HtmlProcessor {
   private $: CheerioStatic;
   private productsCheerio: Cheerio;
 
-  constructor(html: string, config: EshopConfig) {
-    this.config = config;
-    this.$ = cheerio.load(html);
+  constructor(fetchData: FetchData, configList: EshopConfig[]) {
+    this.config = configList.find(config => config.eshopType === fetchData.eshop);
+    this.$ = cheerio.load(fetchData.pageSrc);
     this.productsCheerio = this.$(this.config.productSelector);
   }
 

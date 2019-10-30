@@ -21,11 +21,12 @@ export default class AmazonConfig {
       throw new Error('AmazonConfig.getConfig: Missing parameter info');
     }
 
-    const { searchString, searchStringKeywordSeparator } = configCopy.amazon;
+    const { searchString, searchStringKeywordSeparator, eshopType } = configCopy.amazon;
 
-    configCopy.amazon.urls = pagesToFetch.map(pageNumber => (
-      buildUrl(searchString, searchStringKeywordSeparator, keywords, pageNumber)
-    ));
+    configCopy.amazon.data = pagesToFetch.map(pageNumber => {
+      const url = buildUrl(searchString, searchStringKeywordSeparator, keywords, pageNumber);
+      return { url, eshop: eshopType } // TODO: Unify this interface
+    });
 
     validateConfig(configCopy.amazon);
     return configCopy.amazon;

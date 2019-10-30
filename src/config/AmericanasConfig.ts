@@ -23,12 +23,13 @@ export default class AmericanasConfig {
       throw new Error('AmericanasConfig.getConfig: Missing parameter info');
     }
 
-    const { searchString, searchStringKeywordSeparator } = configCopy.americanas;
+    const { searchString, searchStringKeywordSeparator, eshopType } = configCopy.americanas;
 
-    configCopy.americanas.urls = pagesToFetch.map((pageNumber, index) => (
-      buildUrl(searchString, searchStringKeywordSeparator,
-        keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index)
-    ));
+    configCopy.americanas.data = pagesToFetch.map((pageNumber, index) => {
+      const url = buildUrl(searchString, searchStringKeywordSeparator,
+        keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index);
+      return { url, eshop: eshopType } // TODO: Unify this interface
+    });
 
     validateConfig(configCopy.americanas);
     return configCopy.americanas;

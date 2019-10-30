@@ -7,6 +7,11 @@ import {
 // tslint:disable-next-line:no-submodule-imports
 import { Options } from 'selenium-webdriver/firefox';
 
+export interface FetchData {
+  pageSrc: string;
+  eshop: string;
+}
+
 class Controller {
   public buildHeadlessFirefox(): Promise<WebDriver[] | Error> {
     const instances: ThenableWebDriver[] = [];
@@ -41,13 +46,18 @@ class Controller {
     return promises;
   }
 
-  public fetch(urls: string[], webdriverList: WebDriver[]): Promise<string[]> {
+  public fetch(data: { url: string, eshop: string }[], webdriverList: WebDriver[]): Promise<FetchData[]> {
     const webdriverWorkerList = this.buildWebDriverWorker(webdriverList);
 
-    const promisesFetch = urls.map(url =>
-      this.fetchUrl(url, webdriverWorkerList)
-    );
-
+    const promisesFetch = data.map(dataItem => {
+      return new Promise((resolve, reject) => {
+        this.fetchUrl(dataItem.url, webdriverWorkerList)
+          .then(
+            pageSrc => resolve({ pageSrc, eshop: dataItem.eshop })
+          )
+          .catch(err => reject(err));
+      }) as Promise<FetchData>;
+    });
     return Promise.all(promisesFetch);
   }
 
