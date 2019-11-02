@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?/,
+        test: /\.ts$/,
         exclude: /(node_modules)/,
         use: [
           {
@@ -23,7 +23,13 @@ module.exports = {
         ],
       },
       {
-        test: /\.m?js$/,
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
+      },
+      {
+        test: /\.js$/,
         exclude: /(node_modules)/,
         use: [
           {
@@ -43,9 +49,6 @@ module.exports = {
               ],
             },
           },
-          {
-            loader: 'source-map-loader',
-          },
           // {
           //   loader: 'eslint-loader',
           // },
@@ -63,7 +66,6 @@ module.exports = {
   ],
   devtool: 'sourcemap',
   resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.json', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+    extensions: ['.json', '.ts', '.js'],
   },
 };

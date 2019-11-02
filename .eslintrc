@@ -1,6 +1,6 @@
 { 
   "extends": "airbnb-base",
   "rules": {
-    "no-useless-escape": "warn"
+    "no-useless-escape": "off"
   }
 }
