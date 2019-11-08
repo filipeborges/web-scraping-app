@@ -2,10 +2,13 @@ import {
   Browser,
   Builder,
   ThenableWebDriver,
-  WebDriver
+  WebDriver,
+  Capabilities
 } from 'selenium-webdriver';
 // tslint:disable-next-line:no-submodule-imports
 import { Options } from 'selenium-webdriver/firefox';
+// tslint:disable-next-line:no-submodule-imports
+import { PageLoadStrategy } from 'selenium-webdriver/lib/capabilities';
 
 export interface FetchData {
   pageSrc: string;
@@ -13,10 +16,17 @@ export interface FetchData {
 }
 
 class Controller {
+  private capabilities: Capabilities;
+
+  constructor() {
+    this.capabilities = this.buildCapabilities();
+  }
+
   public buildHeadlessFirefox(): Promise<WebDriver[] | Error> {
     const instances: ThenableWebDriver[] = [];
     const options = new Options()
       .setBinary(process.env.BROWSER_BIN_PATH)
+      .setProfile(process.env.PROFILE_TEMPLATE_FF)
       .headless();
 
     const numInstances = Number(process.env.DRIVER_INSTANCES);
@@ -27,6 +37,7 @@ class Controller {
           new Builder()
             .forBrowser(Browser.FIREFOX)
             .setFirefoxOptions(options)
+            .withCapabilities(this.capabilities)
             .build()
         );
       }
@@ -37,6 +48,14 @@ class Controller {
     return Promise.all(instances).catch(err =>
       this.handleWebDriverCreationError(err, instances)
     );
+  }
+
+  private buildCapabilities(): Capabilities {
+    const capabilities = Capabilities.firefox();
+    (capabilities as any).setPageLoadStrategy(
+      PageLoadStrategy.EAGER
+    );
+    return capabilities;
   }
 
   public shutdown(instances: WebDriver[]): Array<Promise<void>> {
