@@ -1,3 +1,4 @@
+import argv from './config/CmdLineConfig';
 import { controller } from './webdriver-controller';
 import HtmlProcessor, { ResultCollection } from './HtmlProcessor';
 import ResultProcessor from './ResultProcessor';
@@ -7,8 +8,8 @@ import AmazonConfig from './config/AmazonConfig';
 import logger from './log/logger';
 import { WebDriver } from 'selenium-webdriver';
 
-const keywords = ['controle','ps4']; // TODO: Convert to CMD line args
-const maxPriceValue = '100';
+const keywords = argv.keywords as string[];
+const maxPriceValue = argv.maxprice;
 
 try {
   const configList = []; // TODO: Type Array
