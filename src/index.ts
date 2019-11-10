@@ -7,6 +7,7 @@ import SubmarinoConfig from './config/SubmarinoConfig';
 import AmazonConfig from './config/AmazonConfig';
 import logger from './log/logger';
 import { WebDriver } from 'selenium-webdriver';
+import { sortResultCollection } from './util/ArrayUtil';
 
 const keywords = argv.keywords as string[];
 const maxPriceValue = argv.maxprice;
@@ -44,7 +45,10 @@ try {
 
       return result;
     })
-    .then(result => logger.info(result))
+    .then(result => {
+      sortResultCollection(result);
+      logger.info(result);
+    })
     .catch(err => logger.error(err));
 
 } catch (err) {
