@@ -28,7 +28,7 @@ export default class AmericanasConfig {
     configCopy.americanas.data = pagesToFetch.map((pageNumber, index) => {
       const url = buildUrl(searchString, searchStringKeywordSeparator,
         keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index);
-      return { url, eshop: eshopType } // TODO: Unify this interface
+      return { url, eshop: eshopType }
     });
 
     validateConfig(configCopy.americanas);

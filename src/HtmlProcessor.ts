@@ -8,7 +8,6 @@ import AmazonConfig from './config/AmazonConfig';
 import AmazonProcessor from './eshop/AmazonProcessor';
 import logger from './log/logger';
 import { EshopConfig } from './config/config.interface';
-import ResultProcessor from './ResultProcessor';
 import { FetchData } from './webdriver-controller/controller'; // TODO: Review this interface import
 
 export type ResultCollection = {
@@ -29,13 +28,14 @@ export default class HtmlProcessor {
     this.productsCheerio = this.$(this.config.productSelector);
   }
 
-  buildResultCollection(resultProcessor: ResultProcessor) {
+  buildResultCollection(
+    isDesiredProductPrice: (productPrice: string) => boolean
+  ) {
     const result: ResultCollection = [];
 
     this.productsCheerio.each((i, elem) => {
       let productPrice = this.getProductPrice(elem);
-      productPrice = resultProcessor.isDesiredProductPrice(productPrice)
-        ? productPrice : undefined;
+      productPrice = isDesiredProductPrice(productPrice) ? productPrice : undefined;
       const productDetailLink = productPrice && this.getProductDetailLink(elem);
       const productName = productDetailLink && this.getProductName(elem);
 
@@ -50,7 +50,7 @@ export default class HtmlProcessor {
     return result;
   }
 
-  getProductPrice(productCheerio: CheerioElement) {
+  private getProductPrice(productCheerio: CheerioElement) {
     const productPrice = cheerio(productCheerio)
       .find(this.config.productPriceSelector)[0];
 
@@ -73,7 +73,7 @@ export default class HtmlProcessor {
     return undefined;
   }
 
-  getProductName(productCheerio: CheerioElement) {
+  private getProductName(productCheerio: CheerioElement) {
     const productName = cheerio(productCheerio)
       .find((this.config.productNameSelector))[0];
 
@@ -91,7 +91,7 @@ export default class HtmlProcessor {
     return undefined;
   }
 
-  getProductDetailLink(productCheerio: CheerioElement) {
+  private getProductDetailLink(productCheerio: CheerioElement) {
     const productDetailLink = cheerio(productCheerio)
       .find((this.config.productLinkSelector))[0];
     let linkStr: string;

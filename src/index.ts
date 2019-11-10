@@ -1,7 +1,7 @@
 import argv from './config/CmdLineConfig';
 import { controller } from './webdriver-controller';
 import HtmlProcessor, { ResultCollection } from './HtmlProcessor';
-import ResultProcessor from './ResultProcessor';
+import resultProcessor from './ResultProcessor';
 import AmericanasConfig from './config/AmericanasConfig';
 import SubmarinoConfig from './config/SubmarinoConfig';
 import AmazonConfig from './config/AmazonConfig';
@@ -35,12 +35,15 @@ try {
       () => Promise.all(controller.shutdown(instances))
     )
     .then(fetchDataList => {
-      const resultProc = new ResultProcessor(maxPriceValue); // TODO: Make singleton
       const result: ResultCollection = [];
 
       fetchDataList.forEach(fetchData => {
-        const htmlProc = new HtmlProcessor(fetchData, configList); // TODO: Make singleton
-        result.push(...htmlProc.buildResultCollection(resultProc));
+        const htmlProc = new HtmlProcessor(fetchData, configList);
+        result.push(
+          ...htmlProc.buildResultCollection(
+            resultProcessor.buildIsDesiredProductPrice(maxPriceValue)
+          )
+        );
       });
 
       return result;

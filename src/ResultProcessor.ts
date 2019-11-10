@@ -1,15 +1,13 @@
 import { normalizeNumberString } from './util/NumberUtils';
 
-export default class ResultProcessor {
+class ResultProcessor {
 
-  private targetPrice: number;
-
-  constructor(targetPrice: string) {
-    this.targetPrice = Number(normalizeNumberString(targetPrice));
+  buildIsDesiredProductPrice(desiredPrice: string) {
+    const targetPrice = Number(normalizeNumberString(desiredPrice));
+    return (productPrice: string) => productPrice
+      && Number(normalizeNumberString(productPrice)) <= targetPrice;
   }
 
-  isDesiredProductPrice(productPrice: string) {
-    return productPrice
-      && Number(normalizeNumberString(productPrice)) <= this.targetPrice;
-  }
 }
+
+export default new ResultProcessor();

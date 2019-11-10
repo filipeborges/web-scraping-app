@@ -25,7 +25,7 @@ export default class AmazonConfig {
 
     configCopy.amazon.data = pagesToFetch.map(pageNumber => {
       const url = buildUrl(searchString, searchStringKeywordSeparator, keywords, pageNumber);
-      return { url, eshop: eshopType } // TODO: Unify this interface
+      return { url, eshop: eshopType }
     });
 
     validateConfig(configCopy.amazon);

@@ -27,7 +27,7 @@ export default class SubmarinoConfig {
     configCopy.submarino.data = pagesToFetch.map((pageNumber, index) => {
       const url = buildUrl(searchString, searchStringKeywordSeparator,
         keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index);
-      return { url, eshop: eshopType } // TODO: Unify this interface
+      return { url, eshop: eshopType }
     });
 
     validateConfig(configCopy.submarino);
