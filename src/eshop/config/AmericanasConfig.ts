@@ -1,6 +1,6 @@
 import config from './config.json';
 import validateConfig from '../../util/configUtils';
-import { Config } from './config.interface.js';
+import { Config, EshopConfig } from './config.interface';
 
 const configCopy: Config = { ...config };
 
@@ -18,7 +18,7 @@ const ITEMS_PER_PAGE = 24;
 const pagesToFetch = [1, 2, 3, 4, 5];
 
 export default class AmericanasConfig {
-  static getConfig(keywords) {
+  static getConfig(keywords): EshopConfig {
     if (!keywords || !keywords.length) {
       throw new Error('AmericanasConfig.getConfig: Missing parameter info');
     }

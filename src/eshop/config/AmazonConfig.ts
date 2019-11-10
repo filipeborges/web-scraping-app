@@ -1,6 +1,6 @@
 import config from './config.json';
 import validateConfig from '../../util/configUtils';
-import { Config } from './config.interface.js';
+import { Config, EshopConfig } from './config.interface';
 
 const configCopy: Config = { ...config };
 
@@ -16,7 +16,7 @@ const buildUrl = (searchString: string, separator: string, keywords: string[], p
 const pagesToFetch = [1, 2, 3, 4, 5];
 
 export default class AmazonConfig {
-  static getConfig(keywords: string[]) {
+  static getConfig(keywords: string[]): EshopConfig {
     if (!keywords || !keywords.length) {
       throw new Error('AmazonConfig.getConfig: Missing parameter info');
     }

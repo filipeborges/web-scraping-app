@@ -1,5 +1,6 @@
 import config from './config.json';
 import validateConfig from '../../util/configUtils';
+import { EshopConfig } from './config.interface';
 
 const configCopy = { ...config };
 
@@ -17,7 +18,7 @@ const ITEMS_PER_PAGE = 24;
 const pagesToFetch = [1, 2, 3, 4, 5];
 
 export default class SubmarinoConfig {
-  static getConfig(keywords) {
+  static getConfig(keywords): EshopConfig {
     if (!keywords || !keywords.length) {
       throw new Error('SubmarinoConfig.getConfig: Missing parameter info');
     }
