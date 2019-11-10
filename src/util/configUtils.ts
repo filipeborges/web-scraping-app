@@ -1,4 +1,4 @@
-import { EshopConfig } from "../config/config.interface";
+import { EshopConfig } from "../eshop/config/config.interface";
 
 const isValidConfig = (config: EshopConfig): boolean => (
   (config

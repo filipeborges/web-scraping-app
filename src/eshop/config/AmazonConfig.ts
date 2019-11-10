@@ -1,5 +1,5 @@
 import config from './config.json';
-import validateConfig from '../util/configUtils';
+import validateConfig from '../../util/configUtils';
 import { Config } from './config.interface.js';
 
 const configCopy: Config = { ...config };

@@ -1,4 +1,4 @@
-import logger from '../log/logger';
+import logger from '../../log/logger';
 
 const extractPriceFraction = (elemPriceFraction: CheerioElement) => {
   const containsPriceFraction = elemPriceFraction

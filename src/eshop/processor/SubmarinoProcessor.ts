@@ -1,6 +1,6 @@
-import logger from '../log/logger';
+import logger from '../../log/logger';
 
-export default class AmericanasProcessor {
+export default class SubmarinoProcessor {
   static extractElemPrice(elem: CheerioElement) {
     try {
       return elem.children[2].data;
@@ -21,7 +21,7 @@ export default class AmericanasProcessor {
 
   static extractElemLinkDetail(elem: CheerioElement) {
     try {
-      return `www.americanas.com.br${elem.attribs.href}`;
+      return `www.submarino.com.br${elem.attribs.href}`;
     } catch (err) {
       logger.warn('extractElemLinkDetail() fail');
       return undefined;

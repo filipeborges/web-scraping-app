@@ -1,13 +1,13 @@
 import cheerio from 'cheerio';
 import HtmlProcessorUtils from './util/HtmlProcessorUtils';
-import AmericanasConfig from './config/AmericanasConfig';
-import AmericanasProcessor from './eshop/AmericanasProcessor';
-import SubmarinoConfig from './config/SubmarinoConfig';
-import SubmarinoProcessor from './eshop/SubmarinoProcessor';
-import AmazonConfig from './config/AmazonConfig';
-import AmazonProcessor from './eshop/AmazonProcessor';
+import AmericanasConfig from './eshop/config/AmericanasConfig';
+import AmericanasProcessor from './eshop/processor/AmericanasProcessor';
+import SubmarinoConfig from './eshop/config/SubmarinoConfig';
+import SubmarinoProcessor from './eshop/processor/SubmarinoProcessor';
+import AmazonConfig from './eshop/config/AmazonConfig';
+import AmazonProcessor from './eshop/processor/AmazonProcessor';
 import logger from './log/logger';
-import { EshopConfig } from './config/config.interface';
+import { EshopConfig } from './eshop/config/config.interface';
 import { FetchData } from './webdriver-controller/controller'; // TODO: Review this interface import
 
 export type ResultCollection = {
