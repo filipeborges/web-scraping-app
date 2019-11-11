@@ -4,7 +4,6 @@ import HtmlProcessor, { ResultCollection } from './HtmlProcessor';
 import resultProcessor from './ResultProcessor';
 import logger from './log/logger';
 import { WebDriver } from 'selenium-webdriver';
-import { sortResultCollection } from './util/ArrayUtil';
 import { buildEshopData } from './eshop/eshopData';
 
 const keywords = argv.keywords as string[];
@@ -39,8 +38,7 @@ try {
       return result;
     })
     .then(result => {
-      sortResultCollection(result);
-      logger.info(result);
+      resultProcessor.processResult(result);
     })
     .catch(err => logger.error(err));
 
