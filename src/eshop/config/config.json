@@ -36,6 +36,18 @@
     "eshopType": "amazon",
     "normalizeLinkKeywords": [],
     "data": [{ "url": "", "eshop": "" }]
+  },
+  "kabum": {
+    "searchString": "https://www.kabum.com.br/cgi-local/site/listagem/listagem.cgi?string=<keyword>&pagina=<page>&ordem=5&limite=30",
+    "searchStringKeywordSeparator": "+",
+    "productSelector": "section.listagem-box",
+    "productLinkSelector": "section.listagem-box h2 a",
+    "productPriceSelector": "section.listagem-box .listagem-preco",
+    "productNameSelector": "section.listagem-box h2 a",
+    "validLinkPatterns": ["www"],
+    "eshopType": "kabum",
+    "normalizeLinkKeywords": [],
+    "data": [{ "url": "", "eshop": "" }]
   }
 }
 

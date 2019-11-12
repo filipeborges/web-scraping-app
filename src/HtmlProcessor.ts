@@ -6,9 +6,11 @@ import SubmarinoConfig from './eshop/config/SubmarinoConfig';
 import SubmarinoProcessor from './eshop/processor/SubmarinoProcessor';
 import AmazonConfig from './eshop/config/AmazonConfig';
 import AmazonProcessor from './eshop/processor/AmazonProcessor';
+import KabumProcessor from './eshop/processor/KabumProcessor';
 import logger from './log/logger';
 import { EshopConfig } from './eshop/config/config.interface';
 import { FetchData } from './webdriver-controller/controller'; // TODO: Review this interface import
+import KabumConfig from './eshop/config/KabumConfig';
 
 export type ResultCollection = {
   name: string;
@@ -68,6 +70,9 @@ export default class HtmlProcessor {
         .find(this.config.productPriceFractionSelector)[0];
       return AmazonProcessor.extractElemPrice(productPrice, productPriceFraction);
     }
+    if (this.config.eshopType === KabumConfig.eshopType()) {
+      return KabumProcessor.extractElemPrice(productPrice);
+    }
 
     logger.warn('getProductPrice() fail');
     return undefined;
@@ -85,6 +90,9 @@ export default class HtmlProcessor {
     }
     if (this.config.eshopType === AmazonConfig.eshopType()) {
       return AmazonProcessor.extractElemProductName(productName);
+    }
+    if (this.config.eshopType === KabumConfig.eshopType()) {
+      return KabumProcessor.extractElemProductName(productName);
     }
 
     logger.warn('getProductName() fail');
@@ -104,6 +112,9 @@ export default class HtmlProcessor {
     }
     if (this.config.eshopType === AmazonConfig.eshopType()) {
       linkStr = AmazonProcessor.extractElemLinkDetail(productDetailLink);
+    }
+    if (this.config.eshopType === KabumConfig.eshopType()) {
+      return KabumProcessor.extractElemLinkDetail(productDetailLink);
     }
 
 
