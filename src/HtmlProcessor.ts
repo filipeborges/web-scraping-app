@@ -11,12 +11,16 @@ import logger from './log/logger';
 import { EshopConfig } from './eshop/config/config.interface';
 import { FetchData } from './webdriver-controller/controller'; // TODO: Review this interface import
 import KabumConfig from './eshop/config/KabumConfig';
+import { CmdLineParams } from './config/CmdLineConfig';
+import HtmlProcessorUtil from './util/HtmlProcessorUtils';
 
-export type ResultCollection = {
+type ResultCollectionElement = {
   name: string;
   price: string;
   detailLink: string;
-}[];
+}
+
+export type ResultCollection = ResultCollectionElement[];
 
 export default class HtmlProcessor {
 
@@ -31,7 +35,8 @@ export default class HtmlProcessor {
   }
 
   buildResultCollection(
-    isDesiredProductPrice: (productPrice: string) => boolean
+    isDesiredProductPrice: (productPrice: string) => boolean,
+    cmdLineParams: CmdLineParams
   ) {
     const result: ResultCollection = [];
 
@@ -42,11 +47,9 @@ export default class HtmlProcessor {
       const productName = productDetailLink && this.getProductName(elem);
 
       if (productName) {
-        result.push({
-          name: productName,
-          price: productPrice,
-          detailLink: productDetailLink,
-        });
+        HtmlProcessorUtil.insertResultCollectionElement(
+          result, productName, productPrice, productDetailLink, cmdLineParams
+        );
       }
     });
     return result;

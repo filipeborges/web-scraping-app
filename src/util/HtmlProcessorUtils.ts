@@ -1,3 +1,6 @@
+import { CmdLineParams } from "../config/CmdLineConfig";
+import { ResultCollection } from "../HtmlProcessor";
+
 const normalizeLink = (link: string, keywordsToExclude: string[]) => {
   let normalizedLink = link;
   let regex;
@@ -36,5 +39,34 @@ export default class HtmlProcessorUtil {
     return validLinkPatternsRegex.every(validLinkPattern => (
       link.match(validLinkPattern)
     ));
+  }
+
+  static insertResultCollectionElement(
+    result: ResultCollection,
+    name: string,
+    price: string,
+    detailLink: string,
+    cmdLineParams: CmdLineParams
+  ) {
+    if (cmdLineParams.regexFilter) {
+      const productNameContainsAllKeywords = cmdLineParams.keywords.every(
+        (keyword: string) => (
+          name.match(new RegExp(`\\s${keyword}\\s`, 'i'))
+          || name.match(new RegExp(`^${keyword}\\s`, 'i'))
+          || name.match(new RegExp(`\\s${keyword}$`, 'i'))
+        )
+      );
+      productNameContainsAllKeywords && result.push({
+        name,
+        price,
+        detailLink
+      });
+    } else {
+      result.push({
+        name,
+        price,
+        detailLink
+      });
+    }
   }
 }

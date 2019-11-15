@@ -30,7 +30,8 @@ try {
         const htmlProc = new HtmlProcessor(fetchData, eshopData.configList);
         result.push(
           ...htmlProc.buildResultCollection(
-            resultProcessor.buildIsDesiredProductPrice(maxPriceValue)
+            resultProcessor.buildIsDesiredProductPrice(maxPriceValue),
+            argv
           )
         );
       });
