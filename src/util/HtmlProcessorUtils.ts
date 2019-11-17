@@ -18,6 +18,23 @@ const buildLinkValidPatternsRegex = (validLinkPatterns: string[]) => (
   ))
 );
 
+const containsAllKeywords = (name: string, cmdLineParams: CmdLineParams) => {
+  return cmdLineParams.keywords.every(
+    (keyword: string) => (
+      name.match(new RegExp(`\\s${keyword}\\s`, 'i'))
+      || name.match(new RegExp(`^${keyword}\\s`, 'i'))
+      || name.match(new RegExp(`\\s${keyword}$`, 'i'))
+    )
+  );
+}
+
+const containsExcludeKeywords = (name: string, cmdLineParams: CmdLineParams) => {
+  const nameLower = name.toLocaleLowerCase();
+  return cmdLineParams.excludeKeywords.some(
+    (keyword: string) => nameLower.indexOf(keyword.toLocaleLowerCase()) !== -1
+  );
+}
+
 export default class HtmlProcessorUtil {
   static normalizeProductDetailLinks(links: string[], keywordsToExclude: string[]) {
     return links.map(link => this.normalizeProductDetailLink(link, keywordsToExclude));
@@ -48,25 +65,21 @@ export default class HtmlProcessorUtil {
     detailLink: string,
     cmdLineParams: CmdLineParams
   ) {
-    if (cmdLineParams.regexFilter) {
-      const productNameContainsAllKeywords = cmdLineParams.keywords.every(
-        (keyword: string) => (
-          name.match(new RegExp(`\\s${keyword}\\s`, 'i'))
-          || name.match(new RegExp(`^${keyword}\\s`, 'i'))
-          || name.match(new RegExp(`\\s${keyword}$`, 'i'))
-        )
-      );
-      productNameContainsAllKeywords && result.push({
-        name,
-        price,
-        detailLink
-      });
-    } else {
-      result.push({
-        name,
-        price,
-        detailLink
-      });
+
+    let resultToInsert = {
+      name,
+      price,
+      detailLink
+    };
+
+    if (cmdLineParams.regexFilter && !containsAllKeywords(name, cmdLineParams)) {
+      resultToInsert = undefined;
     }
+
+    if (cmdLineParams.excludeKeywords && containsExcludeKeywords(name, cmdLineParams)) {
+      resultToInsert = undefined;
+    }
+
+    resultToInsert && result.push(resultToInsert);
   }
 }
