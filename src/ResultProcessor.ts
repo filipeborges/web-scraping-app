@@ -19,7 +19,7 @@ class ResultProcessor {
   }
 
   private writeToFilePretty(result: ResultCollection) {
-    jsonfile.writeFile(
+    result.length && jsonfile.writeFile(
       argv.output || 'result.json',
       result,
       { spaces: '\t' },
