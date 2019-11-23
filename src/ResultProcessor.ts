@@ -1,3 +1,4 @@
+import argv from './config/CmdLineConfig';
 import { normalizeNumberString } from './util/NumberUtils';
 import { ResultCollection } from './HtmlProcessor';
 import { sortResultCollection } from './util/ArrayUtil';
@@ -19,7 +20,7 @@ class ResultProcessor {
 
   private writeToFilePretty(result: ResultCollection) {
     jsonfile.writeFile(
-      process.env.OUTPUT_RESULT_PATH,
+      argv.output || 'result.json',
       result,
       { spaces: '\t' },
       (err) => {
