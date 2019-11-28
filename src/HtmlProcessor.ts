@@ -13,6 +13,8 @@ import { FetchData } from './webdriver-controller/controller'; // TODO: Review t
 import KabumConfig from './eshop/config/KabumConfig';
 import { CmdLineParams } from './config/CmdLineConfig';
 import HtmlProcessorUtil from './util/HtmlProcessorUtils';
+import MagazineConfig from './eshop/config/MagazineConfig';
+import MagazineProcessor from './eshop/processor/MagazineProcessor';
 
 type ResultCollectionElement = {
   name: string;
@@ -76,6 +78,9 @@ export default class HtmlProcessor {
     if (this.config.eshopType === KabumConfig.eshopType()) {
       return KabumProcessor.extractElemPrice(productPrice);
     }
+    if (this.config.eshopType === MagazineConfig.eshopType()) {
+      return MagazineProcessor.extractElemPrice(productPrice);
+    }
 
     logger.warn('getProductPrice() fail');
     return undefined;
@@ -96,6 +101,9 @@ export default class HtmlProcessor {
     }
     if (this.config.eshopType === KabumConfig.eshopType()) {
       return KabumProcessor.extractElemProductName(productName);
+    }
+    if (this.config.eshopType === MagazineConfig.eshopType()) {
+      return MagazineProcessor.extractElemProductName(productName);
     }
 
     logger.warn('getProductName() fail');
@@ -119,7 +127,9 @@ export default class HtmlProcessor {
     if (this.config.eshopType === KabumConfig.eshopType()) {
       return KabumProcessor.extractElemLinkDetail(productDetailLink);
     }
-
+    if (this.config.eshopType === MagazineConfig.eshopType()) {
+      return MagazineProcessor.extractElemLinkDetail(productDetailLink);
+    }
 
     if (HtmlProcessorUtils.isValidLink(linkStr, this.config.validLinkPatterns)) {
       return HtmlProcessorUtils

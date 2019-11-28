@@ -48,6 +48,18 @@
     "eshopType": "kabum",
     "normalizeLinkKeywords": [],
     "data": [{ "url": "", "eshop": "" }]
+  },
+  "magazine": {
+    "searchString": "https://www.magazineluiza.com.br/busca/<keyword>/<page>",
+    "searchStringKeywordSeparator": " ",
+    "productSelector": "li.product",
+    "productLinkSelector": "a.product-li",
+    "productPriceSelector": "span.price",
+    "productNameSelector": "h3.productTitle",
+    "validLinkPatterns": ["www"],
+    "eshopType": "magazine",
+    "normalizeLinkKeywords": [],
+    "data": [{ "url": "", "eshop": "" }]
   }
 }
 
