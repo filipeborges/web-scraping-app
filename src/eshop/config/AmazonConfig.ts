@@ -1,38 +1,36 @@
-import config from './config.json';
-import validateConfig from '../../util/configUtils';
-import { Config, EshopConfig } from './config.interface';
+import GenericConfig, { PagesToFetchMap } from "./GenericConfig";
 
-const configCopy: Config = { ...config };
+class AmazonConfig extends GenericConfig {
+  constructor() {
+    super('amazon');
+  }
 
-const buildUrl = (searchString: string, separator: string, keywords: string[], page: number) => {
-  const keywordParam = keywords.reduce((accumulator, keyword) => (
-    `${accumulator}${separator}${keyword}`
-  ));
-  return searchString
-    .replace('<keyword>', keywordParam)
-    .replace('<page>', page + '');
-};
+  private buildUrl(
+    searchString: string,
+    separator: string,
+    keywords: string[],
+    page: number
+  ) {
+    const keywordParam = keywords.reduce((accumulator, keyword) => (
+      `${accumulator}${separator}${keyword}`
+    ));
+    return searchString
+      .replace('<keyword>', keywordParam)
+      .replace('<page>', page + '');
+  }
 
-const pagesToFetch = [1, 2, 3, 4, 5];
-
-export default class AmazonConfig {
-  static getConfig(keywords: string[]): EshopConfig {
-    if (!keywords || !keywords.length) {
-      throw new Error('AmazonConfig.getConfig: Missing parameter info');
-    }
-
-    const { searchString, searchStringKeywordSeparator, eshopType } = configCopy.amazon;
-
-    configCopy.amazon.data = pagesToFetch.map(pageNumber => {
-      const url = buildUrl(searchString, searchStringKeywordSeparator, keywords, pageNumber);
+  pagesToFetchMapBuilder(
+    keywords: string[],
+    searchString: string,
+    searchStringKeywordSeparator: string,
+    eshopType: string
+  ): PagesToFetchMap {
+    return pageNumber => {
+      const url = this.buildUrl(searchString, searchStringKeywordSeparator, keywords, pageNumber);
       return { url, eshop: eshopType }
-    });
-
-    validateConfig(configCopy.amazon);
-    return configCopy.amazon;
+    }
   }
 
-  static eshopType() {
-    return config.amazon.eshopType;
-  }
 }
+
+export default new AmazonConfig();

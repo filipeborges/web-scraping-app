@@ -1,41 +1,40 @@
-import config from './config.json';
-import validateConfig from '../../util/configUtils';
-import { Config, EshopConfig } from './config.interface';
-
-const configCopy: Config = { ...config };
-
-const buildUrl = (searchString: string, separator: string, keywords: string[], itemsPerPage: number, offset: number) => {
-  const keywordParam = keywords.reduce((accumulator, keyword) => (
-    `${accumulator}${separator}${keyword}`
-  ));
-  return searchString
-    .replace('<keyword>', keywordParam)
-    .replace('<itemsPerPage>', itemsPerPage + '')
-    .replace('<offset>', offset + '');
-};
+import GenericConfig, { PagesToFetchMap } from './GenericConfig';
 
 const ITEMS_PER_PAGE = 24;
-const pagesToFetch = [1, 2, 3, 4, 5];
 
-export default class AmericanasConfig {
-  static getConfig(keywords): EshopConfig {
-    if (!keywords || !keywords.length) {
-      throw new Error('AmericanasConfig.getConfig: Missing parameter info');
-    }
+class AmericanasConfig extends GenericConfig {
+  constructor() {
+    super('americanas');
+  }
 
-    const { searchString, searchStringKeywordSeparator, eshopType } = configCopy.americanas;
+  private buildUrl(
+    searchString: string,
+    separator: string,
+    keywords: string[],
+    itemsPerPage: number,
+    offset: number
+  ) {
+    const keywordParam = keywords.reduce((accumulator, keyword) => (
+      `${accumulator}${separator}${keyword}`
+    ));
+    return searchString
+      .replace('<keyword>', keywordParam)
+      .replace('<itemsPerPage>', itemsPerPage + '')
+      .replace('<offset>', offset + '');
+  }
 
-    configCopy.americanas.data = pagesToFetch.map((pageNumber, index) => {
-      const url = buildUrl(searchString, searchStringKeywordSeparator,
+  pagesToFetchMapBuilder(
+    keywords: string[],
+    searchString: string,
+    searchStringKeywordSeparator: string,
+    eshopType: string
+  ): PagesToFetchMap {
+    return (pageNumber, index) => {
+      const url = this.buildUrl(searchString, searchStringKeywordSeparator,
         keywords, ITEMS_PER_PAGE, ITEMS_PER_PAGE * index);
       return { url, eshop: eshopType }
-    });
-
-    validateConfig(configCopy.americanas);
-    return configCopy.americanas;
-  }
-
-  static eshopType() {
-    return config.americanas.eshopType;
+    }
   }
 }
+
+export default new AmericanasConfig();
